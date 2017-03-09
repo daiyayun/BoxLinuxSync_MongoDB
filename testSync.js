@@ -19,7 +19,7 @@ MongoClient.connect(url, function(err, db){
 	// read the files
 	fs.readdir(dir,function(err,files){
 		if(err){
-			return console.log('failed to read '+dir);
+			return console.log('failed to read ' + dir);
 		}
 		for(let i = 0; i < files.length; i ++ ){
 			var file_name = dir + '/' + files[i];
