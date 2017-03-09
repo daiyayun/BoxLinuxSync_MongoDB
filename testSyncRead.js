@@ -4,11 +4,11 @@ var mongodb = require('mongodb'),
 
 
 
-var dir = '/home/zejian/Downloads',
+var dir = '/home/yayun/Downloads',
 	MongoClient = require('mongodb').MongoClient,
 	GridStore = require('mongodb').GridStore,
 	ObjectID = require('mongodb').ObjectID,
-	url = 'mongodb://localhost:27017/test';
+	url = 'mongodb://localhost:27017/grifs';
 
 MongoClient.connect(url, function(err, db){
 	if(err){
@@ -21,22 +21,22 @@ MongoClient.connect(url, function(err, db){
 
 	// read the files
 	var files = fs.readdirSync(dir);
-	console.log(files.length+' files in the directory.')
+	console.log(files.length + ' files in the directory.');
 	
 	//for(let i = 0; i < files.length; i ++ ){
 		
-		var i=0;
-		var loop=function(){
-			if(i>=files.length) {
+	var i = 0;
+	var loop = function(){
+			if(i >= files.length) {
 				db.close();
 				return console.log('done !');
 			}
 			var file_name = dir + '/' + files[i];
 						
 			var stats = fs.statSync(file_name);
-			console.log('i=',i);
+			console.log('i = ',i);
 			console.log("file name0 is " + file_name);
-			i++;
+			i ++;
 
 			// skip the directories
 			if(!stats.isDirectory()){
@@ -70,55 +70,51 @@ MongoClient.connect(url, function(err, db){
 	    					// 		return console.log('faied to open gridStore');
 	    					// 	}
 
-								gridStore.writeFile(file_name, function(err, doc) {
-	      							if(err){
-	      								return console.log('cannot insert the document');
-	      							}
-	      							console.log(file_name + ' is inserted to the database.');
-	       							
-	       								return loop();
-	       							
-	      						});
+							gridStore.writeFile(file_name, function(err, doc) {
+      							if(err){
+      								return console.log('cannot insert the document');
+      							}
+      							console.log(file_name + ' is inserted to the database.');
+       							
+       							return loop();      							
+      						});
 							// });
 	    				}
 	    				//if file found, then compare with the database and decide if we need to update
 	    				else{
-	    					md5File(file_name,function(err,hash){
+	    					md5File(file_name, function(err, hash){
 								if(err){
 									return console.log('checksum failed');
 								}
 								// if the file has changed, then update
 								if(hash !== docs[0].md5){
 									var gridStore = new GridStore(db, docs[0]._id, file_name, 'w');
-									gridStore.open(function(err,gridStore){
-										gridStore.writeFile(file_name, function(err, doc) {
-	      									if(err){
-	      										return console.log('cannot update the document');
-	      									}
-	      									console.log(file_name + ' is updated to the database.');	
-	      									
-	      										return loop();
-	      									
-	     
-	      								});
-									});
-								} else { console.log(file_name,' already exists.');return loop();}
+									//gridStore.open(function(err,gridStore){
+									gridStore.writeFile(file_name, function(err, doc) {
+      									if(err){
+      										return console.log('cannot update the document');
+      									}
+      									console.log(file_name + ' is updated to the database.');	
+      									
+      									return loop();	      									
+      								});
+									//});
+								} else { 
+									console.log(file_name,' already exists.');
+									return loop();
+								}
 							});
 	    				}
 	    			});
 	   			    console.log("file name3 is " + file_name);
 				} else { 
-							
-							return loop();
-						
-					}
+					return loop();		
+				}
 
-			} else {  return loop();}
-
-		}
-		loop();
-
-		//console.log('done')
-	//}
+			} else {  
+				return loop();
+			}
+		};
+	loop();
 	//db.close();
 });
