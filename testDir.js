@@ -1,6 +1,6 @@
 const fs=require('fs');
 // const dir='/home/zejian/Videos';
-const dir='/home/yayun/test';
+const dir='/home/zejian/Downloads';
 const md5File=require('md5-file');
 
 fs.readdir(dir,function(err,files){

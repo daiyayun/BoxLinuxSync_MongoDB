@@ -6,9 +6,9 @@ var ObjectID = mongodb.ObjectID;
 var MongoClient = mongodb.MongoClient;
 var GridStore = mongodb.GridStore;
 
-MongoClient.connect('mongodb://localhost:27017/grifs', function(err, db){
+MongoClient.connect('mongodb://localhost:27017/test', function(err, db){
 	var fileId = new ObjectID();
-	var url = '/home/yayun/test.txt';
+	var url = '/home/zejian/test.js';
 	var gridStore = new GridStore(db, fileId, url, 'w');
 
 //	var fileSize = fs.statSync(url).size;
