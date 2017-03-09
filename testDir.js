@@ -1,6 +1,6 @@
 const fs=require('fs');
 // const dir='/home/zejian/Videos';
-const dir='/home/zejian/box'
+const dir='/home/yayun/test';
 const md5File=require('md5-file');
 
 fs.readdir(dir,function(err,files){
@@ -10,7 +10,7 @@ fs.readdir(dir,function(err,files){
 	console.log(files)
 	console.log(files.length+" files in total")
 
-	i=2
+	i=0;
 	file=dir+"/"+files[i];
 	fs.stat(file,function(err,stats){
 		if(err){
@@ -24,6 +24,7 @@ fs.readdir(dir,function(err,files){
 			}
 			console.log('MD5 sum of '+files[i]+'='+hash)
 		})
+		console.log(stats.size);
 	})
 })
 
