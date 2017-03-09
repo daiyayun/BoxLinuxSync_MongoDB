@@ -4,6 +4,7 @@ var GridStore = mongodb.GridStore;
 //var fs = require('fs');
 var ObjectID = mongodb.ObjectID;
 var MongoClient = mongodb.MongoClient;
+var GridStore = mongodb.GridStore;
 
 MongoClient.connect('mongodb://localhost:27017/grifs', function(err, db){
 	var fileId = new ObjectID();
